@@ -3,33 +3,36 @@
 import { AlertTriangle, Shield, X } from "lucide-react";
 import {
   CriterionSpec,
+  MapMode,
   ZoneData,
   formatDecimal,
+  getLivingPalette,
+  getOverallPalette,
   getStatusPalette,
+  getZonePaletteByMode,
 } from "@/lib/zones";
 
 interface ZoneDetailDrawerProps {
   zone: ZoneData;
   allZones: ZoneData[];
   criteria: CriterionSpec[];
+  mapMode: MapMode;
   onClose: () => void;
   onSelectZone: (code: string) => void;
 }
-
-const STATUS_SUBTITLES: Record<ZoneData["zoneStatus"], string> = {
-  aman: "ZONA AMAN - DIREKOMENDASIKAN UNTUK HUNIAN",
-  kurang_aman: "ZONA KURANG AMAN - PERLU KEWASPADAAN",
-  tidak_aman: "ZONA TIDAK AMAN - KEWASPADAAN TINGGI",
-};
 
 export default function ZoneDetailDrawer({
   zone,
   allZones,
   criteria,
+  mapMode,
   onClose,
   onSelectZone,
 }: ZoneDetailDrawerProps) {
-  const palette = getStatusPalette(zone.zoneStatus);
+  const activePalette = getZonePaletteByMode(zone, mapMode);
+  const safetyPalette = getStatusPalette(zone.zoneStatus);
+  const livingPalette = getLivingPalette(zone.livingStatus);
+  const overallPalette = getOverallPalette(zone.overallStatus);
 
   const sortedByTopsis = [...allZones].sort(
     (a, b) => a.topsisRank - b.topsisRank
@@ -39,7 +42,7 @@ export default function ZoneDetailDrawer({
     {
       spec: criteria[0],
       valueText: `Rp ${formatDecimal(zone.metrics.c1_harga_juta)} jt/thn`,
-      percent: Math.min(100, Math.round((zone.metrics.c1_harga_juta / 11) * 100)),
+      percent: Math.min(100, Math.round((zone.metrics.c1_harga_juta / 22) * 100)),
       barColor: "bg-slate-600",
       valueColor: "text-slate-900",
     },
@@ -89,10 +92,12 @@ export default function ZoneDetailDrawer({
   return (
     <aside
       aria-label={`Detail kawasan ${zone.name}`}
-      className="fixed bottom-0 left-0 right-0 z-30 flex max-h-[62vh] flex-col overflow-hidden rounded-t-3xl border border-slate-200 bg-white shadow-2xl lg:bottom-5 lg:left-auto lg:right-5 lg:top-5 lg:max-h-none lg:w-[408px] lg:rounded-2xl"
+      className="fixed bottom-0 left-0 right-0 z-30 flex max-h-[65vh] flex-col overflow-hidden rounded-t-3xl border border-slate-200 bg-white shadow-2xl lg:bottom-5 lg:left-auto lg:right-5 lg:top-5 lg:max-h-none lg:w-[416px] lg:rounded-2xl"
     >
-      {/* Mobile Drag Handle */}
-      <div className={`bg-gradient-to-r ${palette.headerGradient} px-5 pb-4 pt-3 text-white lg:pt-4`}>
+      {/* Header */}
+      <div
+        className={`bg-gradient-to-r ${activePalette.headerGradient} px-5 pb-4 pt-3 text-white lg:pt-4`}
+      >
         <div className="mx-auto mb-2.5 h-1 w-10 rounded-full bg-white/40 lg:hidden" />
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2.5 min-w-0">
@@ -114,29 +119,78 @@ export default function ZoneDetailDrawer({
         </div>
         <div className="mt-2 flex items-center gap-1.5 text-[11px] font-bold tracking-wider text-white/90">
           <Shield className="h-3.5 w-3.5 shrink-0" />
-          <span className="truncate">{STATUS_SUBTITLES[zone.zoneStatus]}</span>
+          <span className="truncate">{zone.overallVerdict}</span>
         </div>
       </div>
 
       {/* Scrollable Body */}
       <div className="flex-1 space-y-3.5 overflow-y-auto p-4 lg:p-5">
+        {/* 3 Category Strip: Keamanan | Kelayakan | Overall */}
+        <div className="grid grid-cols-3 gap-2">
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-2 text-center">
+            <p className="text-[10px] font-semibold text-slate-500">
+              1. Keamanan
+            </p>
+            <span
+              className={`mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-bold ${safetyPalette.badgeBg} ${safetyPalette.badgeText}`}
+            >
+              {zone.zoneLabel}
+            </span>
+            <p className="mt-1 text-[10px] font-bold text-slate-700">
+              Rank #{zone.safetyRank} (C4: {formatDecimal(zone.metrics.c4_keamanan, 1)})
+            </p>
+          </div>
+
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-2 text-center">
+            <p className="text-[10px] font-semibold text-slate-500">
+              2. Kelayakan
+            </p>
+            <span
+              className={`mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-bold ${livingPalette.badgeBg} ${livingPalette.badgeText}`}
+            >
+              {zone.livingLabel}
+            </span>
+            <p className="mt-1 text-[10px] font-bold text-slate-700">
+              Rank #{zone.livingRank} (Li: {formatDecimal(zone.livingScore, 3)})
+            </p>
+          </div>
+
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-2 text-center">
+            <p className="text-[10px] font-semibold text-slate-500">
+              3. Overall
+            </p>
+            <span
+              className={`mt-1 inline-block truncate max-w-full rounded-full px-2 py-0.5 text-[10px] font-bold ${overallPalette.badgeBg} ${overallPalette.badgeText}`}
+            >
+              {zone.overallStatus === "aman_dan_layak"
+                ? "Aman & Layak"
+                : zone.overallStatus === "kompromi"
+                ? "Kompromi"
+                : "Kurang Optimal"}
+            </span>
+            <p className="mt-1 text-[10px] font-bold text-slate-700">
+              Rank #{zone.topsisRank} (Vi: {formatDecimal(zone.topsisScore, 4)})
+            </p>
+          </div>
+        </div>
+
         {/* 2x2 KPI Grid */}
         <div className="grid grid-cols-2 gap-2.5">
           <div
-            className={`rounded-xl border p-3 ${palette.bannerBg} ${palette.bannerBorder}`}
+            className={`rounded-xl border p-2.5 ${safetyPalette.bannerBg} ${safetyPalette.bannerBorder}`}
           >
-            <p className={`text-[10px] font-semibold ${palette.bannerText}`}>
+            <p className={`text-[10px] font-semibold ${safetyPalette.bannerText}`}>
               Skor Keamanan (C4)
             </p>
-            <p className={`mt-0.5 text-lg font-extrabold ${palette.bannerText}`}>
+            <p className={`mt-0.5 text-base font-extrabold ${safetyPalette.bannerText}`}>
               {formatDecimal(zone.metrics.c4_keamanan, 1)} / 5,0
             </p>
           </div>
-          <div className="rounded-xl border border-indigo-200 bg-indigo-50 p-3">
+          <div className="rounded-xl border border-indigo-200 bg-indigo-50 p-2.5">
             <p className="text-[10px] font-semibold text-indigo-800">
-              Skor TOPSIS (Vi)
+              Skor Overall TOPSIS (Vi)
             </p>
-            <p className="mt-0.5 text-lg font-extrabold text-indigo-950">
+            <p className="mt-0.5 text-base font-extrabold text-indigo-950">
               {formatDecimal(zone.topsisScore, 4)}{" "}
               <span className="text-xs font-bold text-indigo-700">
                 (#{zone.topsisRank})
@@ -145,7 +199,7 @@ export default function ZoneDetailDrawer({
           </div>
           <div className="rounded-xl border border-slate-200 bg-slate-50 p-2.5">
             <p className="text-[10px] font-semibold text-slate-500">
-              Harga Sewa (C1)
+              Harga Sewa Daring (C1)
             </p>
             <p className="mt-0.5 text-sm font-bold text-slate-900">
               Rp {formatDecimal(zone.metrics.c1_harga_juta)} jt/thn
@@ -164,7 +218,7 @@ export default function ZoneDetailDrawer({
         {/* 5 Weighted Criteria Bars */}
         <div>
           <p className="mb-2 text-[10px] font-bold tracking-wider text-slate-500">
-            RINCIAN 5 KRITERIA AHP-TOPSIS
+            RINCIAN 5 KRITERIA AHP-TOPSIS (PAPER V3)
           </p>
           <div className="space-y-2">
             {criteriaRows.map(({ spec, valueText, percent, barColor, valueColor }) => (
@@ -191,7 +245,7 @@ export default function ZoneDetailDrawer({
         {/* Mini Comparison Bar Chart (6 Zones) */}
         <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
           <p className="mb-2 text-[11px] font-bold text-slate-900">
-            Perbandingan Skor TOPSIS (Vi) - 6 Kawasan
+            Perbandingan Skor Overall TOPSIS (Vi) - 6 Kawasan
           </p>
           <div className="space-y-1.5">
             {sortedByTopsis.map((item) => {
@@ -219,7 +273,7 @@ export default function ZoneDetailDrawer({
                       style={{
                         width: `${widthPct}%`,
                         backgroundColor: isCurrent
-                          ? palette.accentHex
+                          ? activePalette.accentHex
                           : "#94A3B8",
                       }}
                     />
@@ -243,7 +297,7 @@ export default function ZoneDetailDrawer({
         <div className="rounded-xl border border-amber-200 bg-amber-50 p-3">
           <div className="flex items-center gap-1.5 text-[11px] font-bold text-amber-900">
             <AlertTriangle className="h-3.5 w-3.5 shrink-0 text-amber-700" />
-            <span>Profil & Catatan Model (Paper)</span>
+            <span>Profil &amp; Catatan Model (Paper v3)</span>
           </div>
           <p className="mt-1 text-[11.5px] leading-relaxed text-amber-950">
             {zone.summary}

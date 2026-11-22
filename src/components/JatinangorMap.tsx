@@ -10,8 +10,7 @@ import {
   ZoneData,
   escapeHtml,
   formatDecimal,
-  getStatusPalette,
-  getTopsisPalette,
+  getZonePaletteByMode,
 } from "@/lib/zones";
 
 export interface MapActions {
@@ -89,9 +88,6 @@ export default function JatinangorMap({
         if (tileErrors > 2 && activeTileIdx + 1 < TILE_SOURCES.length) {
           activeTileIdx += 1;
           tileErrors = 0;
-          console.warn(
-            "[JatinangorMap] Primary tile host unavailable, switching to backup tiles."
-          );
           mountTileLayer(activeTileIdx);
         }
       });
@@ -128,7 +124,6 @@ export default function JatinangorMap({
         map.flyTo(JATINANGOR_CENTER, JATINANGOR_DEFAULT_ZOOM, { duration: 0.5 }),
     };
 
-    // Ensure Leaflet recalculates dimensions once Next.js dynamic container settles
     const rafId = window.requestAnimationFrame(() => {
       map.invalidateSize();
     });
@@ -159,12 +154,9 @@ export default function JatinangorMap({
       const isSelected = selectedZone?.code === zone.code;
       const hasSelection = selectedZone !== null;
 
-      const palette = getStatusPalette(zone.zoneStatus);
-      const topsisColors = getTopsisPalette(zone.topsisRank);
-
-      const strokeColor =
-        mapMode === "keamanan" ? palette.stroke : topsisColors.stroke;
-      const fillColor = mapMode === "keamanan" ? palette.fill : topsisColors.fill;
+      const palette = getZonePaletteByMode(zone, mapMode);
+      const strokeColor = palette.stroke;
+      const fillColor = palette.fill;
 
       const fillOpacity = isSelected ? 0.44 : hasSelection ? 0.14 : 0.28;
       const weight = isSelected ? 3.5 : 2;
@@ -185,17 +177,17 @@ export default function JatinangorMap({
       const shortName = zone.name.split(" (")[0];
       const metricLine =
         mapMode === "keamanan"
-          ? `C4: ${formatDecimal(zone.metrics.c4_keamanan, 1)} | Rank #${zone.topsisRank}`
+          ? `C4: ${formatDecimal(zone.metrics.c4_keamanan, 1)} | ${zone.zoneLabel}`
+          : mapMode === "kelayakan"
+          ? `Li: ${formatDecimal(zone.livingScore, 4)} | ${zone.livingLabel}`
           : `Vi: ${formatDecimal(zone.topsisScore, 4)} | #${zone.topsisRank}`;
-      const subTextColor =
-        mapMode === "keamanan" ? palette.stroke : topsisColors.textHex;
 
       const safeCode = escapeHtml(zone.code);
       const safeName = escapeHtml(shortName);
       const safeMetric = escapeHtml(metricLine);
 
       const borderWidth = isSelected ? "2px" : "1.5px";
-      const opacityStyle = hasSelection && !isSelected ? "opacity:0.76;" : "";
+      const opacityStyle = hasSelection && !isSelected ? "opacity:0.78;" : "";
 
       const calloutIcon = L.divIcon({
         className: "ja-div-icon",
@@ -205,7 +197,7 @@ export default function JatinangorMap({
           <span style="display:inline-flex;align-items:center;justify-content:center;padding:3px 7px;border-radius:7px;background:${fillColor};color:#FFFFFF;font-size:11px;font-weight:800;line-height:1;">${safeCode}</span>
           <span style="display:flex;flex-direction:column;gap:1px;line-height:1.15;">
             <span style="color:#0F172A;font-size:11.5px;font-weight:700;">${safeName}</span>
-            <span style="color:${subTextColor};font-size:10px;font-weight:600;">${safeMetric}</span>
+            <span style="color:${strokeColor};font-size:10px;font-weight:600;">${safeMetric}</span>
           </span>
         </button>`,
       });

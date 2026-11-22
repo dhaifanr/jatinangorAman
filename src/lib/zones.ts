@@ -1,7 +1,14 @@
 import rawDataset from "../../data/kawasan_jatinangor.json";
 
 export type ZoneStatus = "aman" | "kurang_aman" | "tidak_aman";
-export type MapMode = "keamanan" | "topsis";
+export type LivingStatus = "layak" | "cukup_layak" | "tidak_layak";
+export type OverallStatus = "aman_dan_layak" | "kompromi" | "kurang_optimal";
+export type MapMode = "keamanan" | "kelayakan" | "overall";
+export type CategoryFilter =
+  | "all"
+  | ZoneStatus
+  | LivingStatus
+  | OverallStatus;
 
 export interface CriterionSpec {
   code: string;
@@ -24,6 +31,14 @@ export interface ZoneData {
   name: string;
   zoneStatus: ZoneStatus;
   zoneLabel: string;
+  safetyRank: number;
+  livingStatus: LivingStatus;
+  livingLabel: string;
+  livingScore: number;
+  livingRank: number;
+  overallStatus: OverallStatus;
+  overallLabel: string;
+  overallVerdict: string;
   topsisRank: number;
   topsisScore: number;
   dPlus: number;
@@ -51,6 +66,7 @@ export interface DatasetMetadata {
   consistencyRatio: number;
   sampleSize: number;
   isSimulated: boolean;
+  priceCalibration?: string;
   note: string;
 }
 
@@ -130,6 +146,8 @@ export const DATASET: JatinangorDataset = {
   zones: rawDataset.zones.map((z) => ({
     ...z,
     zoneStatus: z.zoneStatus as ZoneStatus,
+    livingStatus: z.livingStatus as LivingStatus,
+    overallStatus: z.overallStatus as OverallStatus,
     polygon: ZONE_POLYGONS[z.code] ?? [
       [z.centerApprox.lat + 0.0025, z.centerApprox.lng - 0.0025],
       [z.centerApprox.lat + 0.0025, z.centerApprox.lng + 0.0025],
@@ -152,61 +170,128 @@ export interface ZoneVisualPalette {
   bannerBorder: string;
 }
 
+const GREEN_PALETTE: ZoneVisualPalette = {
+  stroke: "#059669",
+  fill: "#10B981",
+  accentHex: "#10B981",
+  badgeBg: "bg-emerald-100",
+  badgeText: "text-emerald-800",
+  badgeBorder: "border-emerald-300",
+  headerGradient: "from-emerald-900 to-emerald-800",
+  bannerBg: "bg-emerald-50",
+  bannerText: "text-emerald-800",
+  bannerBorder: "border-emerald-200",
+};
+
+const AMBER_PALETTE: ZoneVisualPalette = {
+  stroke: "#D97706",
+  fill: "#F59E0B",
+  accentHex: "#F59E0B",
+  badgeBg: "bg-amber-100",
+  badgeText: "text-amber-800",
+  badgeBorder: "border-amber-300",
+  headerGradient: "from-amber-800 to-amber-700",
+  bannerBg: "bg-amber-50",
+  bannerText: "text-amber-900",
+  bannerBorder: "border-amber-200",
+};
+
+const RED_PALETTE: ZoneVisualPalette = {
+  stroke: "#DC2626",
+  fill: "#EF4444",
+  accentHex: "#EF4444",
+  badgeBg: "bg-red-100",
+  badgeText: "text-red-800",
+  badgeBorder: "border-red-300",
+  headerGradient: "from-red-900 to-red-800",
+  bannerBg: "bg-red-50",
+  bannerText: "text-red-900",
+  bannerBorder: "border-red-200",
+};
+
 const STATUS_PALETTES: Record<ZoneStatus, ZoneVisualPalette> = {
-  aman: {
-    stroke: "#059669",
-    fill: "#10B981",
-    accentHex: "#10B981",
-    badgeBg: "bg-emerald-100",
-    badgeText: "text-emerald-800",
-    badgeBorder: "border-emerald-300",
-    headerGradient: "from-emerald-900 to-emerald-800",
-    bannerBg: "bg-emerald-50",
-    bannerText: "text-emerald-800",
-    bannerBorder: "border-emerald-200",
-  },
-  kurang_aman: {
-    stroke: "#D97706",
-    fill: "#F59E0B",
-    accentHex: "#F59E0B",
-    badgeBg: "bg-amber-100",
-    badgeText: "text-amber-800",
-    badgeBorder: "border-amber-300",
-    headerGradient: "from-amber-800 to-amber-700",
-    bannerBg: "bg-amber-50",
-    bannerText: "text-amber-900",
-    bannerBorder: "border-amber-200",
-  },
-  tidak_aman: {
-    stroke: "#DC2626",
-    fill: "#EF4444",
-    accentHex: "#EF4444",
-    badgeBg: "bg-red-100",
-    badgeText: "text-red-800",
-    badgeBorder: "border-red-300",
-    headerGradient: "from-red-900 to-red-800",
-    bannerBg: "bg-red-50",
-    bannerText: "text-red-900",
-    bannerBorder: "border-red-200",
-  },
+  aman: GREEN_PALETTE,
+  kurang_aman: AMBER_PALETTE,
+  tidak_aman: RED_PALETTE,
+};
+
+const LIVING_PALETTES: Record<LivingStatus, ZoneVisualPalette> = {
+  layak: GREEN_PALETTE,
+  cukup_layak: AMBER_PALETTE,
+  tidak_layak: RED_PALETTE,
+};
+
+const OVERALL_PALETTES: Record<OverallStatus, ZoneVisualPalette> = {
+  aman_dan_layak: GREEN_PALETTE,
+  kompromi: AMBER_PALETTE,
+  kurang_optimal: RED_PALETTE,
 };
 
 export function getStatusPalette(status: ZoneStatus): ZoneVisualPalette {
   return STATUS_PALETTES[status];
 }
 
-export function getTopsisPalette(rank: number): { stroke: string; fill: string; textHex: string } {
-  if (rank <= 2) {
-    return { stroke: "#4338CA", fill: "#6366F1", textHex: "#312E81" };
-  }
-  if (rank <= 4) {
-    return { stroke: "#0284C7", fill: "#38BDF8", textHex: "#075985" };
-  }
-  return { stroke: "#64748B", fill: "#94A3B8", textHex: "#334155" };
+export function getLivingPalette(status: LivingStatus): ZoneVisualPalette {
+  return LIVING_PALETTES[status];
+}
+
+export function getOverallPalette(status: OverallStatus): ZoneVisualPalette {
+  return OVERALL_PALETTES[status];
+}
+
+export function getZonePaletteByMode(
+  zone: ZoneData,
+  mode: MapMode
+): ZoneVisualPalette {
+  if (mode === "keamanan") return getStatusPalette(zone.zoneStatus);
+  if (mode === "kelayakan") return getLivingPalette(zone.livingStatus);
+  return getOverallPalette(zone.overallStatus);
+}
+
+export function getZoneBadgeLabelByMode(zone: ZoneData, mode: MapMode): string {
+  if (mode === "keamanan") return zone.zoneLabel;
+  if (mode === "kelayakan") return zone.livingLabel;
+  return zone.overallLabel;
 }
 
 export function formatDecimal(value: number, digits = 2): string {
   return value.toFixed(digits).replace(".", ",");
+}
+
+export function filterAndSortZones(
+  zones: ZoneData[],
+  mode: MapMode,
+  categoryFilter: CategoryFilter,
+  query: string
+): ZoneData[] {
+  const normalized = query.trim().toLowerCase();
+  const filtered = zones.filter((zone) => {
+    if (categoryFilter !== "all") {
+      if (mode === "keamanan" && zone.zoneStatus !== categoryFilter) {
+        return false;
+      }
+      if (mode === "kelayakan" && zone.livingStatus !== categoryFilter) {
+        return false;
+      }
+      if (mode === "overall" && zone.overallStatus !== categoryFilter) {
+        return false;
+      }
+    }
+    if (!normalized) return true;
+    return (
+      zone.name.toLowerCase().includes(normalized) ||
+      zone.code.toLowerCase().includes(normalized) ||
+      zone.zoneLabel.toLowerCase().includes(normalized) ||
+      zone.livingLabel.toLowerCase().includes(normalized) ||
+      zone.overallLabel.toLowerCase().includes(normalized)
+    );
+  });
+
+  return filtered.sort((a, b) => {
+    if (mode === "keamanan") return a.safetyRank - b.safetyRank;
+    if (mode === "kelayakan") return a.livingRank - b.livingRank;
+    return a.topsisRank - b.topsisRank;
+  });
 }
 
 export function filterZones(
@@ -214,17 +299,7 @@ export function filterZones(
   statusFilter: ZoneStatus | "all",
   query: string
 ): ZoneData[] {
-  const normalized = query.trim().toLowerCase();
-  return zones.filter((zone) => {
-    const matchesStatus = statusFilter === "all" || zone.zoneStatus === statusFilter;
-    if (!matchesStatus) return false;
-    if (!normalized) return true;
-    return (
-      zone.name.toLowerCase().includes(normalized) ||
-      zone.code.toLowerCase().includes(normalized) ||
-      zone.zoneLabel.toLowerCase().includes(normalized)
-    );
-  });
+  return filterAndSortZones(zones, "keamanan", statusFilter, query);
 }
 
 export function escapeHtml(text: string): string {
