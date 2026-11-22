@@ -1,6 +1,6 @@
 # JatinangorAman
 
-Web peta interaktif (*Web-GIS*) untuk memvisualisasikan **keamanan dan kelayakan daerah kos/hunian di kawasan Jatinangor** bagi mahasiswa dan warga, berdasarkan paper:
+Web peta interaktif (*Web-GIS*) berbasis **Next.js** untuk memvisualisasikan **keamanan dan kelayakan daerah kos/hunian di kawasan Jatinangor** bagi mahasiswa dan warga, berdasarkan paper:
 
 > **"Pemetaan Literatur dan Perancangan Model Konseptual Decision Support System untuk Smart Living and Safety di Kawasan Jatinangor"**  
 > *Program Studi Teknik Informatika, Universitas Padjadjaran*  
@@ -30,19 +30,48 @@ Model mengevaluasi **5 kriteria** (`C1` Harga Sewa [28%], `C2` Jarak Kampus [22%
 
 ---
 
+## Tech Stack
+- **Framework:** Next.js (App Router) + React + TypeScript
+- **Peta Interaktif:** Leaflet + CartoDB Voyager Tiles
+- **Styling & Ikon:** Tailwind CSS v4 + Lucide React
+
+---
+
+## Menjalankan Proyek Secara Lokal
+```bash
+npm install
+npm run dev
+```
+Lalu buka `http://localhost:3000` di browser.
+
+Untuk memverifikasi build produksi:
+```bash
+npm run build
+```
+
+---
+
 ## Struktur Direktori
 ```text
 jatinangorAman/
 ├── PRD.md                        # Product Requirements Document (selaras dengan paper)
 ├── README.md                     # Dokumentasi proyek
-└── data/
-    ├── kawasan_jatinangor.json   # Dataset agregasi 6 kawasan (Tabel II, IV, V & profil paper)
-    └── responden_simulasi.csv    # Dataset mentah 30 responden simulasi (Tabel III paper)
+├── package.json
+├── data/
+│   ├── kawasan_jatinangor.json   # Dataset agregasi 6 kawasan (Tabel II, IV, V & profil paper)
+│   └── responden_simulasi.csv    # Dataset mentah 30 responden simulasi (Tabel III paper)
+├── design/
+│   └── jatinangor-aman.figcraft  # Desain UI Web-GIS di FigCraft
+└── src/
+    ├── app/
+    │   ├── globals.css
+    │   ├── layout.tsx
+    │   └── page.tsx
+    ├── components/
+    │   ├── JatinangorMap.tsx     # Komponen peta interaktif Leaflet
+    │   ├── MapExplorer.tsx       # Panel kontrol, filter, mode switcher & layout responsif
+    │   ├── MethodologyModal.tsx  # Modal ringkasan metode AHP-TOPSIS
+    │   └── ZoneDetailDrawer.tsx  # Drawer/sheet detail kriteria & grafik perbandingan Vi
+    └── lib/
+        └── zones.ts              # Loader dataset JSON, koordinat poligon & helper warna
 ```
-
----
-
-## Dokumen & Dataset
-- [PRD.md](./PRD.md) — Spesifikasi produk lengkap sesuai model konseptual AHP–TOPSIS pada paper.
-- [data/kawasan_jatinangor.json](./data/kawasan_jatinangor.json) — Dataset utama siap pakai untuk layer peta interaktif (`A1`–`A6`, bobot AHP, nilai `C1`–`C5`, `D+`, `D-`, `V_i`, peringkat, dan klasifikasi zona).
-- [data/responden_simulasi.csv](./data/responden_simulasi.csv) — Data simulasi 30 responden (`R01`–`R30`) sesuai Tabel III paper.
