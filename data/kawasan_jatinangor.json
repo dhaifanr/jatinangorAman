@@ -1,0 +1,182 @@
+{
+  "metadata": {
+    "title": "Pemetaan Keamanan dan Kelayakan Daerah Kos Jatinangor",
+    "sourcePaper": "Pemetaan Literatur dan Perancangan Model Konseptual Decision Support System untuk Smart Living and Safety di Kawasan Jatinangor",
+    "method": "Hybrid AHP-TOPSIS",
+    "consistencyRatio": 0.042,
+    "sampleSize": 30,
+    "isSimulated": true,
+    "note": "Nilai V_i tertinggi merupakan kompromi terbaik berdasarkan bobot kriteria AHP (harga 28%, jarak 22%, keamanan 22%, fasilitas 18%, kebisingan 10%), bukan semata-mata kawasan paling aman."
+  },
+  "criteria": [
+    {
+      "code": "C1",
+      "name": "Harga sewa tahunan",
+      "unit": "Rp juta",
+      "type": "cost",
+      "ahpWeight": 0.28
+    },
+    {
+      "code": "C2",
+      "name": "Jarak ke gerbang kampus",
+      "unit": "km",
+      "type": "cost",
+      "ahpWeight": 0.22
+    },
+    {
+      "code": "C3",
+      "name": "Fasilitas penunjang (air/WiFi)",
+      "unit": "Skala Likert (1-5)",
+      "type": "benefit",
+      "ahpWeight": 0.18
+    },
+    {
+      "code": "C4",
+      "name": "Sistem keamanan (CCTV/portal)",
+      "unit": "Skala Likert (1-5)",
+      "type": "benefit",
+      "ahpWeight": 0.22
+    },
+    {
+      "code": "C5",
+      "name": "Tingkat kebisingan lingkungan",
+      "unit": "Skala Likert (1-5)",
+      "type": "cost",
+      "ahpWeight": 0.10
+    }
+  ],
+  "zones": [
+    {
+      "code": "A1",
+      "name": "Ciseke (Ciseke Besar dan Kecil)",
+      "zoneStatus": "tidak_aman",
+      "zoneLabel": "Tidak Aman",
+      "topsisRank": 3,
+      "topsisScore": 0.6543,
+      "dPlus": 0.0624,
+      "dMinus": 0.1182,
+      "metrics": {
+        "c1_harga_juta": 7.20,
+        "c2_jarak_km": 0.46,
+        "c3_fasilitas": 3.2,
+        "c4_keamanan": 2.2,
+        "c5_kebisingan": 3.6
+      },
+      "summary": "Kawasan dengan densitas kos dan aktivitas komersial/kuliner mahasiswa paling masif di samping gerbang lama Unpad. Jalan sempit, parkir luas terbatas, kebisingan tinggi, dan memiliki skor keamanan terendah (riwayat curanmor di area kos sekitar kampus/Desa Cikeruh).",
+      "centerApprox": {
+        "lat": -6.9306,
+        "lng": 107.7722
+      }
+    },
+    {
+      "code": "A2",
+      "name": "GKPN dan Kolocokro",
+      "zoneStatus": "aman",
+      "zoneLabel": "Aman",
+      "topsisRank": 5,
+      "topsisScore": 0.3839,
+      "dPlus": 0.1058,
+      "dMinus": 0.0659,
+      "metrics": {
+        "c1_harga_juta": 10.30,
+        "c2_jarak_km": 1.72,
+        "c3_fasilitas": 4.8,
+        "c4_keamanan": 3.6,
+        "c5_kebisingan": 2.0
+      },
+      "summary": "Tata ruang hunian lebih teratur dengan jalan lingkungan lebar, dekat toserba modern dan kafe, fasilitas terbaik, serta sistem keamanan mandiri yang baik. Tarif sewa paling mahal dan berjarak > 1,5 km dari Unpad.",
+      "centerApprox": {
+        "lat": -6.9348,
+        "lng": 107.7628
+      }
+    },
+    {
+      "code": "A3",
+      "name": "Sayang",
+      "zoneStatus": "kurang_aman",
+      "zoneLabel": "Kurang Aman",
+      "topsisRank": 4,
+      "topsisScore": 0.4707,
+      "dPlus": 0.0889,
+      "dMinus": 0.0790,
+      "metrics": {
+        "c1_harga_juta": 6.00,
+        "c2_jarak_km": 1.63,
+        "c3_fasilitas": 3.2,
+        "c4_keamanan": 3.2,
+        "c5_kebisingan": 3.6
+      },
+      "summary": "Berada di sepanjang Jl. Kolonel Ahmad Syam yang dilalui trayek angkot dengan harga sewa terjangkau. Namun tingkat kebisingan tinggi serta memiliki kerentanan genangan banjir dan riwayat kesulitan air bersih.",
+      "centerApprox": {
+        "lat": -6.9395,
+        "lng": 107.7735
+      }
+    },
+    {
+      "code": "A4",
+      "name": "Cikuda",
+      "zoneStatus": "kurang_aman",
+      "zoneLabel": "Kurang Aman",
+      "topsisRank": 1,
+      "topsisScore": 0.7355,
+      "dPlus": 0.0429,
+      "dMinus": 0.1194,
+      "metrics": {
+        "c1_harga_juta": 6.10,
+        "c2_jarak_km": 0.66,
+        "c3_fasilitas": 3.2,
+        "c4_keamanan": 2.8,
+        "c5_kebisingan": 1.8
+      },
+      "summary": "Peringkat 1 kompromi TOPSIS karena harga murah, jarak dekat, dan kebisingan paling rendah. Namun akses jalan menanjak, lingkungan sepi di dekat persawahan, akses makanan agak jauh, serta disebut cukup rawan kejahatan.",
+      "centerApprox": {
+        "lat": -6.9218,
+        "lng": 107.7745
+      }
+    },
+    {
+      "code": "A5",
+      "name": "Hegarmanah",
+      "zoneStatus": "kurang_aman",
+      "zoneLabel": "Kurang Aman",
+      "topsisRank": 2,
+      "topsisScore": 0.7189,
+      "dPlus": 0.0455,
+      "dMinus": 0.1164,
+      "metrics": {
+        "c1_harga_juta": 6.00,
+        "c2_jarak_km": 0.73,
+        "c3_fasilitas": 3.0,
+        "c4_keamanan": 3.0,
+        "c5_kebisingan": 2.2
+      },
+      "summary": "Berada pada kontur perbukitan yang tenang dengan tarif sewa terjangkau dan dekat kampus (peringkat 2 TOPSIS). Namun area cenderung sepi, minim penerangan di beberapa titik, dan memiliki catatan insiden kejahatan jalanan.",
+      "centerApprox": {
+        "lat": -6.9285,
+        "lng": 107.7685
+      }
+    },
+    {
+      "code": "A6",
+      "name": "Caringin",
+      "zoneStatus": "aman",
+      "zoneLabel": "Aman",
+      "topsisRank": 6,
+      "topsisScore": 0.3256,
+      "dPlus": 0.1159,
+      "dMinus": 0.0560,
+      "metrics": {
+        "c1_harga_juta": 7.90,
+        "c2_jarak_km": 2.11,
+        "c3_fasilitas": 3.4,
+        "c4_keamanan": 3.4,
+        "c5_kebisingan": 2.2
+      },
+      "summary": "Kawasan tenang dan jauh dari kebisingan jalan raya utama dengan skor keamanan relatif baik. Berjarak > 1,5 km dari Unpad sehingga lebih sesuai bagi mahasiswa berkendaraan.",
+      "centerApprox": {
+        "lat": -6.9420,
+        "lng": 107.7810
+      }
+    }
+  ]
+}
