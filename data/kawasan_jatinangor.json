@@ -64,8 +64,8 @@
       },
       "summary": "Kawasan dengan densitas kos dan aktivitas komersial/kuliner mahasiswa paling masif di samping gerbang lama Unpad. Jalan sempit, parkir luas terbatas, kebisingan tinggi, dan memiliki skor keamanan terendah (riwayat curanmor di area kos sekitar kampus/Desa Cikeruh).",
       "centerApprox": {
-        "lat": -6.9306,
-        "lng": 107.7722
+        "lat": -6.9342,
+        "lng": 107.7756
       }
     },
     {
@@ -86,8 +86,8 @@
       },
       "summary": "Tata ruang hunian lebih teratur dengan jalan lingkungan lebar, dekat toserba modern dan kafe, fasilitas terbaik, serta sistem keamanan mandiri yang baik. Tarif sewa paling mahal dan berjarak > 1,5 km dari Unpad.",
       "centerApprox": {
-        "lat": -6.9348,
-        "lng": 107.7628
+        "lat": -6.9378,
+        "lng": 107.7658
       }
     },
     {
@@ -108,8 +108,8 @@
       },
       "summary": "Berada di sepanjang Jl. Kolonel Ahmad Syam yang dilalui trayek angkot dengan harga sewa terjangkau. Namun tingkat kebisingan tinggi serta memiliki kerentanan genangan banjir dan riwayat kesulitan air bersih.",
       "centerApprox": {
-        "lat": -6.9395,
-        "lng": 107.7735
+        "lat": -6.9410,
+        "lng": 107.7734
       }
     },
     {
@@ -130,8 +130,8 @@
       },
       "summary": "Peringkat 1 kompromi TOPSIS karena harga murah, jarak dekat, dan kebisingan paling rendah. Namun akses jalan menanjak, lingkungan sepi di dekat persawahan, akses makanan agak jauh, serta disebut cukup rawan kejahatan.",
       "centerApprox": {
-        "lat": -6.9218,
-        "lng": 107.7745
+        "lat": -6.9260,
+        "lng": 107.7802
       }
     },
     {
@@ -152,8 +152,8 @@
       },
       "summary": "Berada pada kontur perbukitan yang tenang dengan tarif sewa terjangkau dan dekat kampus (peringkat 2 TOPSIS). Namun area cenderung sepi, minim penerangan di beberapa titik, dan memiliki catatan insiden kejahatan jalanan.",
       "centerApprox": {
-        "lat": -6.9285,
-        "lng": 107.7685
+        "lat": -6.9355,
+        "lng": 107.7802
       }
     },
     {
@@ -174,8 +174,8 @@
       },
       "summary": "Kawasan tenang dan jauh dari kebisingan jalan raya utama dengan skor keamanan relatif baik. Berjarak > 1,5 km dari Unpad sehingga lebih sesuai bagi mahasiswa berkendaraan.",
       "centerApprox": {
-        "lat": -6.9420,
-        "lng": 107.7810
+        "lat": -6.9392,
+        "lng": 107.7697
       }
     }
   ]

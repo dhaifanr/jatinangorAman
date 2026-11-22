@@ -60,63 +60,68 @@ export interface JatinangorDataset {
   zones: ZoneData[];
 }
 
-export const JATINANGOR_CENTER: [number, number] = [-6.9315, 107.77];
+export const JATINANGOR_CENTER: [number, number] = [-6.9338, 107.773];
 export const JATINANGOR_DEFAULT_ZOOM = 15;
 
 /**
- * Poligon pendekatan untuk masing-masing kawasan A1-A6 di koridor Jatinangor.
- * Koordinat poligon riil per unit kos akan diperhalus pada fase survei lapangan.
+ * Poligon terverifikasi berdasarkan geometri jalan OpenStreetMap Jatinangor:
+ * - A1 Ciseke: Gang Ciseke (-6.9329..-6.9352, 107.7750..107.7774), selatan Gerbang Lama Unpad
+ * - A2 GKPN & Kolocokro: Jalan GKPN (-6.9351..-6.9412, 107.7626..107.7678), seberang IPDN/Ikopin
+ * - A3 Sayang: Koridor Jalan Sayang / Jl. Kol. Ahmad Syam (-6.9366..-6.9452, 107.7715..107.7752)
+ * - A4 Cikuda: Jalan Cikuda (-6.9230..-6.9296, 107.7778..107.7832), timur/timur-laut Unpad
+ * - A5 Hegarmanah: Jalan Hegarmanah (-6.9312..-6.9396, 107.7778..107.7832), timur Ciseke
+ * - A6 Caringin: Jalan Caringin & Ci Caringin (-6.9340..-6.9445, 107.7682..107.7712), antara GKPN & Sayang
  */
 const ZONE_POLYGONS: Record<string, [number, number][]> = {
   A1: [
-    [-6.9278, 107.7695],
-    [-6.9275, 107.7745],
-    [-6.9312, 107.7752],
-    [-6.9334, 107.7728],
-    [-6.9328, 107.7692],
+    [-6.9322, 107.7738],
+    [-6.9318, 107.7774],
+    [-6.9358, 107.7774],
+    [-6.9362, 107.7742],
+    [-6.9342, 107.7736],
   ],
   A2: [
-    [-6.9322, 107.7595],
-    [-6.9318, 107.7658],
-    [-6.9362, 107.7664],
-    [-6.9378, 107.7618],
-    [-6.9355, 107.7588],
+    [-6.9351, 107.7635],
+    [-6.9348, 107.7678],
+    [-6.9395, 107.7678],
+    [-6.9412, 107.7642],
+    [-6.9382, 107.7626],
   ],
   A3: [
-    [-6.9362, 107.7702],
-    [-6.9358, 107.7768],
-    [-6.9415, 107.7774],
-    [-6.9432, 107.7722],
-    [-6.9405, 107.7696],
+    [-6.9368, 107.7716],
+    [-6.9366, 107.7752],
+    [-6.9445, 107.7750],
+    [-6.9452, 107.7715],
+    [-6.9408, 107.7715],
   ],
   A4: [
-    [-6.9182, 107.7712],
-    [-6.9178, 107.7782],
-    [-6.9235, 107.7788],
-    [-6.9255, 107.7742],
-    [-6.9232, 107.7705],
+    [-6.9232, 107.7778],
+    [-6.9230, 107.7825],
+    [-6.9285, 107.7832],
+    [-6.9296, 107.7795],
+    [-6.9268, 107.7778],
   ],
   A5: [
-    [-6.9248, 107.7645],
-    [-6.9242, 107.7702],
-    [-6.9296, 107.7708],
-    [-6.9316, 107.7668],
-    [-6.9292, 107.7638],
+    [-6.9315, 107.7778],
+    [-6.9312, 107.7828],
+    [-6.9388, 107.7832],
+    [-6.9396, 107.7782],
+    [-6.9356, 107.7778],
   ],
   A6: [
-    [-6.9382, 107.7782],
-    [-6.9378, 107.7848],
-    [-6.9442, 107.7855],
-    [-6.9458, 107.7804],
-    [-6.9428, 107.7775],
+    [-6.9344, 107.7682],
+    [-6.9340, 107.7712],
+    [-6.9432, 107.7710],
+    [-6.9445, 107.7682],
+    [-6.9395, 107.7682],
   ],
 };
 
 export const CAMPUS_LANDMARKS: CampusLandmark[] = [
-  { id: "unpad", name: "UNPAD Jatinangor", lat: -6.9261, lng: 107.7747 },
-  { id: "itb", name: "ITB Jatinangor", lat: -6.9288, lng: 107.7692 },
-  { id: "ipdn", name: "IPDN", lat: -6.9344, lng: 107.7666 },
-  { id: "ikopin", name: "IKOPIN", lat: -6.9348, lng: 107.7778 },
+  { id: "unpad", name: "UNPAD Jatinangor", lat: -6.9245, lng: 107.774 },
+  { id: "itb", name: "ITB Jatinangor", lat: -6.9289, lng: 107.7689 },
+  { id: "ikopin", name: "IKOPIN", lat: -6.9332, lng: 107.7665 },
+  { id: "ipdn", name: "IPDN", lat: -6.9315, lng: 107.7632 },
 ];
 
 export const DATASET: JatinangorDataset = {
