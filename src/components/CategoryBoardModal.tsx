@@ -52,7 +52,7 @@ export default function CategoryBoardModal({
         <div className="flex items-center justify-between bg-gradient-to-r from-slate-900 to-slate-800 px-5 py-4 text-white">
           <div>
             <h2 id="category-board-title" className="text-base font-bold">
-              Komparasi 3 Kategori Daerah Kos Jatinangor (Paper v3)
+              Komparasi 3 Kategori Daerah Kos Jatinangor (Paper v5)
             </h2>
             <p className="mt-0.5 text-xs text-slate-300">
               Klik salah satu daerah di kolom mana pun untuk menyorot zonanya di peta

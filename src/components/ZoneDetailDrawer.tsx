@@ -199,7 +199,7 @@ export default function ZoneDetailDrawer({
           </div>
           <div className="rounded-xl border border-slate-200 bg-slate-50 p-2.5">
             <p className="text-[10px] font-semibold text-slate-500">
-              Harga Sewa Daring (C1)
+              Harga Sewa (C1)
             </p>
             <p className="mt-0.5 text-sm font-bold text-slate-900">
               Rp {formatDecimal(zone.metrics.c1_harga_juta)} jt/thn
@@ -218,7 +218,7 @@ export default function ZoneDetailDrawer({
         {/* 5 Weighted Criteria Bars */}
         <div>
           <p className="mb-2 text-[10px] font-bold tracking-wider text-slate-500">
-            RINCIAN 5 KRITERIA AHP-TOPSIS (PAPER V3)
+            RINCIAN 5 KRITERIA AHP-TOPSIS (PAPER V5)
           </p>
           <div className="space-y-2">
             {criteriaRows.map(({ spec, valueText, percent, barColor, valueColor }) => (
@@ -297,7 +297,7 @@ export default function ZoneDetailDrawer({
         <div className="rounded-xl border border-amber-200 bg-amber-50 p-3">
           <div className="flex items-center gap-1.5 text-[11px] font-bold text-amber-900">
             <AlertTriangle className="h-3.5 w-3.5 shrink-0 text-amber-700" />
-            <span>Profil &amp; Catatan Model (Paper v3)</span>
+            <span>Profil &amp; Catatan Model (Paper v5)</span>
           </div>
           <p className="mt-1 text-[11.5px] leading-relaxed text-amber-950">
             {zone.summary}

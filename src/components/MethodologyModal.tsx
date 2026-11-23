@@ -47,7 +47,7 @@ export default function MethodologyModal({
               <p className="text-[11px] text-slate-300">
                 {metadata.method} | CR ={" "}
                 {formatDecimal(metadata.consistencyRatio, 3)} |{" "}
-                {metadata.sampleSize} Responden Simulasi
+                {metadata.sampleSize} Responden Survei
               </p>
             </div>
           </div>
@@ -118,17 +118,17 @@ export default function MethodologyModal({
             <ul className="mt-1 space-y-1 text-[11px] text-slate-600">
               <li>
                 <strong className="text-emerald-700">Aman (C4 &ge; 3,4):</strong>{" "}
-                GKPN & Kolocokro, Caringin.
+                GKPN, Caringin, Sayang, Hegarmanah.
               </li>
               <li>
                 <strong className="text-amber-700">
                   Kurang Aman (2,8 - 3,3):
                 </strong>{" "}
-                Sayang, Hegarmanah, Cikuda.
+                Ciseke.
               </li>
               <li>
                 <strong className="text-red-700">Tidak Aman (C4 &lt; 2,8):</strong>{" "}
-                Ciseke.
+                Cikuda.
               </li>
             </ul>
             <p className="mt-2 border-t border-slate-200 pt-2 text-[11px] leading-relaxed text-slate-600">

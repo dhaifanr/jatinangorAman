@@ -208,7 +208,7 @@ export default function MapExplorer({ dataset }: MapExplorerProps) {
                   JatinangorAman
                 </h1>
                 <p className="text-[11px] font-medium text-slate-400">
-                  Smart Living &amp; Safety | Paper v3
+                  Smart Living &amp; Safety | Paper v5
                 </p>
               </div>
             </div>
@@ -430,14 +430,14 @@ export default function MapExplorer({ dataset }: MapExplorerProps) {
               onClick={() => handleSelectZone("A2", "keamanan")}
               className="rounded-lg border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-[11px] font-bold text-emerald-800 transition hover:bg-emerald-100 cursor-pointer"
             >
-              #1 Aman: A2 GKPN (3,6)
+              #1 Aman: A2 GKPN (4,2)
             </button>
             <button
               type="button"
-              onClick={() => handleSelectZone("A4", "overall")}
+              onClick={() => handleSelectZone("A1", "overall")}
               className="rounded-lg border border-indigo-200 bg-indigo-50 px-2.5 py-1 text-[11px] font-bold text-indigo-800 transition hover:bg-indigo-100 cursor-pointer"
             >
-              #1 Overall: A4 Cikuda (0,7241)
+              #1 Overall: A1 Ciseke (0,7512)
             </button>
           </div>
         )}
@@ -464,7 +464,7 @@ export default function MapExplorer({ dataset }: MapExplorerProps) {
           <>
             <span className="inline-flex items-center gap-1.5 font-semibold text-slate-900">
               <span className="h-2.5 w-2.5 rounded-sm bg-emerald-500" />
-              Layak (Cikuda, Hegarmanah, Ciseke)
+              Layak (Ciseke, Hegarmanah, Cikuda)
             </span>
             <span className="inline-flex items-center gap-1.5 font-semibold text-slate-900">
               <span className="h-2.5 w-2.5 rounded-sm bg-amber-500" />
@@ -479,11 +479,11 @@ export default function MapExplorer({ dataset }: MapExplorerProps) {
           <>
             <span className="inline-flex items-center gap-1.5 font-semibold text-slate-900">
               <span className="h-2.5 w-2.5 rounded-sm bg-emerald-500" />
-              Aman &amp; Layak (#1 Cikuda, #2 Hegarmanah)
+              Optimal (#1 Ciseke, #2 Hegarmanah)
             </span>
             <span className="inline-flex items-center gap-1.5 font-semibold text-slate-900">
               <span className="h-2.5 w-2.5 rounded-sm bg-amber-500" />
-              Kompromi (#3 Ciseke, #4 GKPN)
+              Kompromi (#3 Cikuda, #4 GKPN)
             </span>
             <span className="inline-flex items-center gap-1.5 font-semibold text-slate-900">
               <span className="h-2.5 w-2.5 rounded-sm bg-red-500" />

@@ -82,7 +82,7 @@ export const JATINANGOR_DEFAULT_ZOOM = 15;
 /**
  * Poligon terverifikasi berdasarkan geometri jalan OpenStreetMap Jatinangor:
  * - A1 Ciseke: Gang Ciseke (-6.9329..-6.9352, 107.7750..107.7774), selatan Gerbang Lama Unpad
- * - A2 GKPN & Kolocokro: Jalan GKPN (-6.9351..-6.9412, 107.7626..107.7678), seberang IPDN/Ikopin
+ * - A2 GKPN: Jalan GKPN (-6.9351..-6.9412, 107.7626..107.7678), seberang IPDN/Ikopin
  * - A3 Sayang: Koridor Jalan Sayang / Jl. Kol. Ahmad Syam (-6.9366..-6.9452, 107.7715..107.7752)
  * - A4 Cikuda: Jalan Cikuda (-6.9230..-6.9296, 107.7778..107.7832), timur/timur-laut Unpad
  * - A5 Hegarmanah: Jalan Hegarmanah (-6.9312..-6.9396, 107.7778..107.7832), timur Ciseke
